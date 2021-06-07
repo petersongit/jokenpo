@@ -57,13 +57,9 @@ class _JogoBodyState extends State<JogoBody> {
     } else if ((escolhaApp == Opcao.PAPEL && escolhaUsuario == Opcao.PEDRA) ||
         (escolhaApp == Opcao.TESOURA && escolhaUsuario == Opcao.PAPEL) ||
         (escolhaApp == Opcao.PEDRA && escolhaUsuario == Opcao.TESOURA)) {
-      setState(() {
         _vencedor = Vencedor.APP;
-      });
     } else {
-      setState(() {
         _vencedor = Vencedor.EMPATE;
-      });
     }
   }
 
