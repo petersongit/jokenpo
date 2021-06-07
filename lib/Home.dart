@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:jokenpo/JogoAppBar.dart';
 import 'package:jokenpo/JogoRodape.dart';
 
+import 'JogoBody.dart';
+
 class Home extends StatelessWidget {
   const Home({Key key}) : super(key: key);
 
@@ -10,7 +12,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: JogoAppBar(),
-      body: Container(),
+      body: JogoBody(),
       bottomNavigationBar: Rodape(),
     );
   }

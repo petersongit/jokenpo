@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class JogoAppBar extends StatelessWidget implements PreferredSizeWidget{
-  const JogoAppBar({Key key}) : super(key: key);
+  //const JogoAppBar({Key key}) : super(key: key);
   final _title = 'Jonkenpo';
 
   @override
@@ -14,5 +14,5 @@ class JogoAppBar extends StatelessWidget implements PreferredSizeWidget{
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(100);
+  Size get preferredSize => const Size.fromHeight(50);
 }

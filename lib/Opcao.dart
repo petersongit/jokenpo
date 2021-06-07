@@ -1,0 +1,1 @@
+enum Opcao { PAPEL, PEDRA, TESOURA }
