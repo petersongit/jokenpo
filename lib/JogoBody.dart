@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:jokenpo/Opcao.dart';
 import 'package:jokenpo/Vencedor.dart';
 
@@ -15,6 +16,7 @@ class JogoBody extends StatefulWidget {
 class _JogoBodyState extends State<JogoBody> {
   var _imagemApp = 'images/padrao.png';
   var _fraseResposta = '';
+  var _vencedor;
 
   // var _imagemApp =  Image.asset('images/padrao.png');
   // Usando desta dorma basta atribuir o valor o contrutor do image diretamente
@@ -25,10 +27,47 @@ class _JogoBodyState extends State<JogoBody> {
     return valores[indice];
   }
 
-  void _opcaoSelecionada(Opcao escolhaUsuario) {
-    var escolhaApp = this._processarEscolhaDoApp();
-    var _vencedor;
+  void _processar(Opcao escolhaUsuario) {
+    Opcao escolhaApp;
 
+    escolhaApp = this._processarEscolhaDoApp();
+    _mostrarEscolhaDoApp(escolhaApp);
+    _processarResultado(escolhaUsuario, escolhaApp);
+    _informarGanhador();
+  }
+
+  void _informarGanhador() {
+    switch (_vencedor) {
+      case Vencedor.USUARIO:
+        this._fraseResposta = 'Você ganhou';
+        break;
+      case Vencedor.APP:
+        this._fraseResposta = 'Você perdeu';
+        break;
+      case Vencedor.EMPATE:
+        this._fraseResposta = 'Empatou';
+    }
+  }
+
+  void _processarResultado(Opcao escolhaUsuario, Opcao escolhaApp) {
+    if ((escolhaUsuario == Opcao.PAPEL && escolhaApp == Opcao.PEDRA) ||
+        (escolhaUsuario == Opcao.TESOURA && escolhaApp == Opcao.PAPEL) ||
+        (escolhaUsuario == Opcao.PEDRA && escolhaApp == Opcao.TESOURA)) {
+      _vencedor = Vencedor.USUARIO;
+    } else if ((escolhaApp == Opcao.PAPEL && escolhaUsuario == Opcao.PEDRA) ||
+        (escolhaApp == Opcao.TESOURA && escolhaUsuario == Opcao.PAPEL) ||
+        (escolhaApp == Opcao.PEDRA && escolhaUsuario == Opcao.TESOURA)) {
+      setState(() {
+        _vencedor = Vencedor.APP;
+      });
+    } else {
+      setState(() {
+        _vencedor = Vencedor.EMPATE;
+      });
+    }
+  }
+
+  void _mostrarEscolhaDoApp(Opcao escolhaApp) {
     switch (escolhaApp) {
       case Opcao.PAPEL:
         setState(() {
@@ -45,33 +84,6 @@ class _JogoBodyState extends State<JogoBody> {
           _imagemApp = 'images/tesoura.png';
         });
         break;
-    }
-
-    if ((escolhaUsuario == Opcao.PAPEL && escolhaApp == Opcao.PEDRA) ||
-        (escolhaUsuario == Opcao.TESOURA && escolhaApp == Opcao.PAPEL) ||
-        (escolhaUsuario == Opcao.PEDRA && escolhaApp == Opcao.TESOURA)) {
-      _vencedor = Vencedor.USUARIO;
-    } else if ((escolhaApp == Opcao.PAPEL && escolhaUsuario == Opcao.PEDRA) ||
-        (escolhaApp == Opcao.TESOURA && escolhaUsuario == Opcao.PAPEL) ||
-        (escolhaApp == Opcao.PEDRA && escolhaUsuario == Opcao.TESOURA)) {
-      setState(() {
-        _vencedor = Vencedor.APP;
-      });
-    } else {
-      setState(() {
-        _vencedor = Vencedor.EMPATE;
-      });
-    }
-
-    switch(_vencedor){
-      case Vencedor.USUARIO:
-        _fraseResposta = 'Você ganhou';
-        break;
-      case Vencedor.APP:
-        _fraseResposta = 'Você perdeu';
-        break;
-      case Vencedor.EMPATE:
-        _fraseResposta = 'Você empatou';
     }
   }
 
@@ -106,19 +118,19 @@ class _JogoBodyState extends State<JogoBody> {
               GestureDetector(
                 child: Image.asset('images/papel.png', height: 100),
                 onTap: () {
-                  _opcaoSelecionada(Opcao.PAPEL);
+                  _processar(Opcao.PAPEL);
                 },
               ),
               GestureDetector(
                 child: Image.asset('images/pedra.png', height: 100),
                 onTap: () {
-                  _opcaoSelecionada(Opcao.PEDRA);
+                  _processar(Opcao.PEDRA);
                 },
               ),
               GestureDetector(
                   child: Image.asset('images/tesoura.png', height: 100),
                   onTap: () {
-                    _opcaoSelecionada(Opcao.TESOURA);
+                    _processar(Opcao.TESOURA);
                   }),
             ],
           ),
