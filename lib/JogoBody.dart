@@ -87,8 +87,6 @@ class _JogoBodyState extends State<JogoBody> {
     }
   }
 
-  void processarResultado(int escolhaDoApp) {}
-
   @override
   Widget build(BuildContext context) {
     return Center(
